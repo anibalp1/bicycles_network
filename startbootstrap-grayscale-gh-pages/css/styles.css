@@ -10207,7 +10207,7 @@ body {
   height: auto;
   min-height: 35rem;
   padding: 15rem 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000000 100%), url("../images/bg-masthead.jpg");
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000000 100%), url("../assets/img/bg-masthead.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -10257,27 +10257,27 @@ body {
   margin-bottom: 5rem;
 }
 
-.bicycle-section {
+.projects-section {
   padding: 10rem 0;
 }
-.bicycle-section .featured-text {
+.projects-section .featured-text {
   padding: 2rem;
 }
 @media (min-width: 992px) {
-  .bicycle-section .featured-text {
+  .projects-section .featured-text {
     padding: 0 0 0 2rem;
     border-left: 0.5rem solid #64a19d;
   }
 }
-.bicycle-section .bicycle-text {
+.projects-section .project-text {
   padding: 3rem;
   font-size: 90%;
 }
 @media (min-width: 992px) {
-  .bicycle-section .bicycle-text {
+  .projects-section .project-text {
     padding: 5rem;
   }
-  .bicycle-section .bicycle-text hr {
+  .projects-section .project-text hr {
     border-color: #64a19d;
     border-width: 0.25rem;
     width: 30%;
@@ -10286,7 +10286,7 @@ body {
 
 .signup-section {
   padding: 10rem 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5) 75%, #000000 100%), url("../images/bg-signup.jpg");
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5) 75%, #000000 100%), url("../assets/img/bg-signup.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
