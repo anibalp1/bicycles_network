@@ -16,6 +16,18 @@ exports.bicycle_create = function(req, res){
     });
 }
 
+exports.bicycle_update = function(req, res){
+    var bic = Bicycle.findByid(req.body.id);
+    bic.id = req.body.id;
+    bic.model = req.body.model;
+    bic.color = req.body.color;
+    bic.location = [req.body.location[0], req.body.location[1]];
+    
+    res.status(200).json({
+        bicycle: bic
+    });
+}
+
 exports.bicycle_delete = function(req, res){
     Bicycle.removeById(req.body.id);
     res.status(204).send();
