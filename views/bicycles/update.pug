@@ -1,0 +1,28 @@
+extends ../layout
+
+block content
+    a(href='/bicycles') Back
+    br
+    br
+    br
+
+    h1 Updating Bicycle
+    br
+    br
+    form(action=`/bicycles/${bic.id}/update` method='post')
+        .form-group
+            label(for='id') ID
+            input#bicycleId.form-control(type='number' name='id' value=bic.id)
+        .form-group
+            label(for='color') Color
+            input#color.form-control(type='text' name='color' value=bic.color)
+        .form-group
+            label(for='model') Model
+            input#model.form-control(type='text' name='model' value=bic.model)
+        .form-group
+            label(for='lat') Latitude
+            input#lat.form-control(type='text' name='lat' value=bic.location[0])
+        .form-group
+            label(for='lng') Longitude
+            input#lng.form-control(type='text' name='lng' value=bic.location[1])
+        button.btn.btn-primary(type='submit' value='OK') Submit
