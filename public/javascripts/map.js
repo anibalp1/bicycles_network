@@ -9,5 +9,13 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     accessToken: 'pk.eyJ1Ijoic2FtdWVscGVuYTIxIiwiYSI6ImNraGNocmNyYzA1OHMzMm1mMnhleThzaHcifQ.fmWJgBoGeDibdBGtFln6hw'
 }).addTo(map);
 
-L.marker([18.480289, -69.853922]).addTo(map);
-L.marker([18.496195, -69.955696]).addTo(map);
+$.ajax({
+    dataType: "json",
+    url: "api/bicycles",
+    success: function(result){
+        console.log(result);
+        result.bicycles.forEach(bic => {
+            L.marker(bic.location, {title: bic.id}).addTo(map);
+        });
+    }
+})
