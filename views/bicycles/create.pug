@@ -1,29 +1,30 @@
 extends ../layout
 
 block content
-    a(href='/bicycles') Back
-    br
-    br
-    br
+    .container
+        a(href='/bicycles') Back
+        br
+        br
+        br
 
-    h1 Creating Bicycle
-    br
-    br
+        h1 Creating Bicycle
+        br
+        br
 
-    form(action='/bicycles/create' method='post')
-        .form-group
-            label(for='id') ID
-            input#bicycleId.form-control(type='number' name='id')
-        .form-group
-            label(for='color') Color
-            input#color.form-control(type='text' name='color')
-        .form-group
-            label(for='model') Model
-            input#model.form-control(type='text' name='model')
-        .form-group
-            label(for='lat') Latitude
-            input#lat.form-control(type='text' name='lat')
-        .form-group
-            label(for='lng') Longitude
-            input#lng.form-control(type='text' name='lng')
-        button.btn.btn-primary(type='submit' value='OK') Submit
+        form(action='/bicycles/create' method='post')
+            .form-group
+                label(for='id') ID
+                input#bicycleId.form-control(type='number' name='id')
+            .form-group
+                label(for='color') Color
+                input#color.form-control(type='text' name='color')
+            .form-group
+                label(for='model') Model
+                input#model.form-control(type='text' name='model')
+            .form-group
+                label(for='lat') Latitude
+                input#lat.form-control(type='text' name='lat')
+            .form-group
+                label(for='lng') Longitude
+                input#lng.form-control(type='text' name='lng')
+            button.btn.btn-primary(type='submit' value='OK') Submit

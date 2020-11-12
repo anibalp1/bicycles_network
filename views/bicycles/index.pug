@@ -2,28 +2,29 @@ extends ../layout
 
 block content
 
-    a(href='/bicycles/create') New Bicycle
+    .container
+        a(href='/bicycles/create') New Bicycle
 
-    table.table 
-        thead
-            tr  
-                th(scope='col') #
-                th(scope='col') Color
-                th(scope='col') Model
-                th(scope='col') Location
-        tbody
-            each bic in bicycles
-                tr
-                    td(scope='row') 
-                      = bic.id
-                    td= bic.color
-                    td= bic.model
-                    td= bic.location
-                    td
-                        a(href='bicycles/' + bic.id + '/update') Edit
-                    td
-                        form.inline(method='post' action='bicycles/' + bic.id + '/delete')
-                            input(type='hidden' name='id' value= bic.id)
-                            button.link-button(type='submit' name='submit_param' value='submit_value' class='btn')
-                                = 'Delete'
+        table.table 
+            thead
+                tr  
+                    th(scope='col') #
+                    th(scope='col') Color
+                    th(scope='col') Model
+                    th(scope='col') Location
+            tbody
+                each bic in bicycles
+                    tr
+                        td(scope='row') 
+                          = bic.id
+                        td= bic.color
+                        td= bic.model
+                        td= bic.location
+                        td
+                            a(href='bicycles/' + bic.id + '/update') Edit
+                        td
+                            form.inline(method='post' action='bicycles/' + bic.id + '/delete')
+                                input(type='hidden' name='id' value= bic.id)
+                                button.link-button(type='submit' name='submit_param' value='submit_value' class='btn')
+                                    = 'Delete'
                         
