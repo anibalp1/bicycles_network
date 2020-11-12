@@ -1,42 +1,44 @@
-var Bicycle = function (id, color, model, location) {
-    this.id = id;
-    this.color = color;
-    this.model = model;
-    this.location = location;
-}
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-Bicycle.prototype.toString = function(){
-    return 'id: '+ this.id + " | color: " + this.color;
-}
-
-Bicycle.allBicycles = [];
-Bicycle.add = function (aBicycle){
-    Bicycle.allBicycles.push(aBicycle);
-}
-Bicycle.remove = function(aBicycle){
-    Bicycle.allBicycles.push(aBicycle);
-}
-Bicycle.findByid = function(aBicycleId){
-    var result = Bicycle.allBicycles.find(x => x.id == aBicycleId);
-    if(result)
-        return result;
-    else
-        throw new Error(`There is no bicycle with the id: ${aBicycleId}`);
-}
-Bicycle.removeById = function(aBicycleId){
-    for(var i=0; i<Bicycle.allBicycles.length; i++){
-        if(Bicycle.allBicycles[i].id == aBicycleId){
-            Bicycle.allBicycles.splice(i,1);
-            break;
-        }
+var bicycleShema = new Schema({
+    code: Number,
+    color: String,
+    model: String,
+    location: {
+        type: [Number], index: { type: '2dsphere', sparse: true}
     }
+});
+
+bicycleShema.statics.createInstance = function(code, color, model, location){
+    return new this({
+        code: code,
+        color: color,
+        model: model,
+        location: location
+    });
+}
+
+bicycleShema.methods.toString = function(){
+    return 'code: ' +this.code+ ' | color: ' +this.color;
+};
+
+bicycleShema.statics.allBicycles = function(callback){
+    return this.find({}, callback);
+}
+
+bicycleShema.statics.add = function(bic, callback){
+    return this.create(bic,callback);
+}
+
+bicycleShema.statics.findByCode = function(code, callback){
+    return this.findOne({code: code}, callback);
+}
+
+bicycleShema.statics.removeByCode = function(code, callback){
+    return this.deleteOne({code: code}, callback);
 }
 
 
-// var a = new Bicycle(1, 'red', 'urban', [18.480289, -69.853922]);
-// var b = new Bicycle(2, 'blue', 'urban', [18.480289, -69.850152]);
 
-// Bicycle.add(a);
-// Bicycle.add(b);
-
-module.exports = Bicycle;
+module.exports = mongoose.model('Bicycle', bicycleShema);
