@@ -5,6 +5,8 @@ describe('Testing Bicycles', function(){
 
     beforeAll(function(done) {
 
+        mongoose.disconnect();
+        
         var mongoDB = 'mongodb://localhost/testdb';
         mongoose.connect(mongoDB, {  useNewUrlParser: true, useUnifiedTopology: true });
 

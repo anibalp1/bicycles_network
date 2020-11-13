@@ -15,7 +15,7 @@ $.ajax({
     success: function(result){
         console.log(result);
         result.bicycles.forEach(bic => {
-            L.marker(bic.location, {title: bic.id}).addTo(map);
+            L.marker(bic.location, {title: bic.code}).addTo(map);
         });
     }
 })

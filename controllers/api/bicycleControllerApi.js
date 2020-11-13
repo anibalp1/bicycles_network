@@ -1,34 +1,50 @@
 const Bicycle = require('../../models/bicycle');
 
 exports.bicycle_list = function(req, res){
-    res.status(200).json({
-        bicycles: Bicycle.allBicycles
+    Bicycle.allBicycles(function(err, bicycles){
+        res.status(200).json({
+            bicycles: bicycles
+        });
     });
 }
 
 exports.bicycle_create = function(req, res){
-    var bic = new Bicycle(req.body.id, req.body.color, req.body.model, [req.body.location[0], req.body.location[1]]);
+    var bic = new Bicycle({
+        code: req.body.code,
+        color: req.body.color,
+        model: req.body.model, 
+        location: [req.body.location[0], req.body.location[1]]
+    });
 
-    Bicycle.add(bic);
-    
-    res.status(200).json({
-        bicycle: bic
+    Bicycle.add(bic, function(err, bicycle){
+        if(err){
+            res.status(500).send(err);       
+        }else{
+            res.status(200).json({
+                bicycle: bicycle
+            });
+        }
     });
 }
 
 exports.bicycle_update = function(req, res){
-    var bic = Bicycle.findByid(req.body.id);
-    bic.id = req.body.id;
-    bic.model = req.body.model;
-    bic.color = req.body.color;
-    bic.location = [req.body.location[0], req.body.location[1]];
+
+    Bicycle.findByCode(req.body.code, function(err, bicycle){
+        bicycle.code = req.body.code;
+        bicycle.model = req.body.model;
+        bicycle.color = req.body.color;
+        bicycle.location = [req.body.location[0], req.body.location[1]];
+        bicycle.save();
     
-    res.status(200).json({
-        bicycle: bic
+        res.status(200).json({
+            bicycle: bicycle
+        });
     });
 }
 
 exports.bicycle_delete = function(req, res){
-    Bicycle.removeById(req.body.id);
-    res.status(204).send();
+    var code = req.body.code;
+    Bicycle.removeByCode(code, function(err){
+        res.status(204).send();
+    });
 }

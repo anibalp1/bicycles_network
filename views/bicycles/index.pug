@@ -16,15 +16,15 @@ block content
                 each bic in bicycles
                     tr
                         td(scope='row') 
-                          = bic.id
+                          = bic.code
                         td= bic.color
                         td= bic.model
                         td= bic.location
                         td
-                            a(href='bicycles/' + bic.id + '/update') Edit
+                            a(href='bicycles/' + bic.code + '/update') Edit
                         td
-                            form.inline(method='post' action='bicycles/' + bic.id + '/delete')
-                                input(type='hidden' name='id' value= bic.id)
+                            form.inline(method='post' action='bicycles/' + bic.code + '/delete')
+                                input(type='hidden' name='code' value= bic.code)
                                 button.link-button(type='submit' name='submit_param' value='submit_value' class='btn')
                                     = 'Delete'
                         
