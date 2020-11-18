@@ -1,9 +1,13 @@
 var mongoose = require('mongoose');
 var Reservation = require('./reservation');
+const uniqueValidator = require('mongoose-unique-validator');
 var Schema = mongoose.Schema;
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const crypto = require('crypto');
+const Token = require('../models/token');
+const mailer = require('../mailer/mailer'); 
 
 const validateEmail = function(email){
     const re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -21,6 +25,7 @@ var userSchema = new Schema({
         trim: true,
         required: [true, 'The email is required'],
         lowercase: true, 
+        unique: true,
         validate: [validateEmail, 'write a valid email'],
         match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]
     },
@@ -43,6 +48,8 @@ userSchema.pre('save', function(next){
     next();
 });
 
+userSchema.plugin(uniqueValidator, { message: 'The {PATH} already exists'});
+
 userSchema.methods.validatePassword = function(password){
     return bcrypt.compareSync(password, this.password);
 }
@@ -58,5 +65,28 @@ userSchema.methods.reserve = function (bicId, startDate, endDate, callback){
     console.log(reserve);
     reserve.save(callback);
 }
+
+userSchema.methods.send_welcome_email = function(callback){
+    const token = new Token({_userId: this.id, token: crypto.randomBytes(16).toString('hex')});
+    const email_destination = this.email;
+    token.save(function(err){
+        if(err) return console.log(err.message);
+
+        const mailOptions = {
+            from: 'no-reply@bicycleNetwork.com',
+            to: email_destination,
+            subject: 'Account Verification',
+            text: 'Hi, \n\n' + 'To validate your account please click the next link: \n' + 'http://localhost:3000' + '\/token/confirmation\/' +token.token + '\n'
+        }
+
+        mailer.sendMail(mailOptions, function(err){
+            if(err) {   return console.log(err.message); }
+
+            console.log('A verificaation mail has been send to: ' +email_destination +'.'); 
+        });
+
+    });
+}
+
 
 module.exports = mongoose.model('User', userSchema);

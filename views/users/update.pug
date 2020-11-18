@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+    .container
+        a(href='/users') Back
+        br
+        br
+        br
+
+        h1 Updating User
+        br
+        br
+
+        form(action=`/users/${ user.id }/update` method='post')
+                .form-group
+                    label(for='name') Name:
+                    input#code.form-control(type='text' name='name' value=user.name class=errors.name ? 'is-invalid' : '' )
+                    if errors.name
+                        small#nameHelp.text-danger
+                            = errors.name.message
+                br
+                br
+                button.btn.btn-primary(type='submit' value='OK') Submit
