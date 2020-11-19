@@ -88,5 +88,26 @@ userSchema.methods.send_welcome_email = function(callback){
     });
 }
 
+userSchema.methods.resetPassword = function(cb) {
+    const token = new Token({_userId: this.id, token: crypto.randomBytes(16).toString('hex')});
+    const email_destination = this.email;
+    token.save(function(err) {
+        if (err) { return cb(err); }
+
+        const mailOptions = {
+            from: 'no-reply@bicycleNetwork.com',
+            to: email_destination,
+            subject: 'Password Reset',
+            text: 'Hi,\n\n' + 'Please click on this link to reset your account password:\n' + 'http://localhost:3000' + '\/resetPassword\/' + token.token + '\n'
+        }
+
+        mailer.sendMail(mailOptions, function(err) {
+            if (err) { return cb(err); }
+            console.log('An email to reset the password was sent to ' + email_destination + '.');
+        });
+
+        cb(null);
+    });
+};
 
 module.exports = mongoose.model('User', userSchema);
