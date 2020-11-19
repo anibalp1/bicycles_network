@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var jwt = require('jsonwebtoken');
 
 const passport = require('./config/passport');
 const session = require('express-session');
@@ -12,12 +13,16 @@ var usersRouter = require('./routes/users');
 var bicyclesRouter = require('./routes/bicycles');
 var tokenRouter = require('./routes/token');
 var sessionRouter = require('./routes/session');
+var authApiRouter = require('./routes/api/authApi');
 var bicyclesApiRouter = require('./routes/api/bicycleApi');
 var usersApiRouter = require('./routes/api/userApi');
 
 const store = new session.MemoryStore;
 
 var app = express();
+
+app.set('secretKey', 'jwt_bn_lebron_23');
+
 app.use(session({
   cookie: { maxAge: 240 * 60 *60 *1000 },
   store: store,
@@ -52,8 +57,9 @@ app.use('/users', loggedIn, usersRouter);
 app.use('/bicycles', loggedIn, bicyclesRouter);
 app.use('/token', tokenRouter);
 app.use('/session', sessionRouter);
-app.use('/api/bicycles', bicyclesApiRouter);
-app.use('/api/users', usersApiRouter);
+app.use('/api/auth', authApiRouter);
+app.use('/api/bicycles', validateUser, bicyclesApiRouter);
+app.use('/api/users', validateUser, usersApiRouter);
 
 
 // catch 404 and forward to error handler

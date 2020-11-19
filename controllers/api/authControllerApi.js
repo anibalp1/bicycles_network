@@ -3,21 +3,21 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
  
 module.exports = {
-     authenticate: function(req, res, next) {
+    authenticate: function(req, res, next) {
         User.findOne({ email: req.body.email }, function(err, userInfo) {
-             if(err) {
-                 next(err);
-             } else {
-                 if (userInfo === null) { return res.status(401).json({ status: "error", message: "Email/Bad Password", data: null }); }
-                 if( userInfo != null && bcrypt.compareSync(req.body.password, userInfo.password)) {
-                     const token = jwt.sign({ id: userInfo._id }, req.app.get('secretKey'), { expiresIn: '7d' });
-                     res.status(200).json({ message: "User not found", data: { user: userInfo, token: token }});
-                 } else {
-                     res.status(401).json({ status: "error", message: "Email/Bad Password", data: null });
-                 }
-             }
-         });
-     },
+            if(err) {
+                next(err);
+            } else {
+                if (userInfo === null) { return res.status(401).json({ status: "error", message: "Email/Bad Password", data: null }); }
+                if( userInfo != null && bcrypt.compareSync(req.body.password, userInfo.password)) {
+                    const token = jwt.sign({ id: userInfo._id }, req.app.get('secretKey'), { expiresIn: '7d' });
+                    res.status(200).json({ message: "User found", data: { user: userInfo, token: token }});
+                } else { 
+                    res.status(401).json({ status: "error", message: "Email/Bad Password", data: null });
+                }
+            }
+        });
+    },
  
      forgotPassword: function(req, res, next) {
          User.findOne({ email: req.body.email }, function(err, user) {
