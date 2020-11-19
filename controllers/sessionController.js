@@ -61,9 +61,9 @@ module.exports = {
             user.password = req.body.password;
             user.save(function(err) {
                 if(err) {
-                    res.render('session/resetPassword', {errors: err.errors, user: new Usuario({email: req.body.email})});
-               } else {
-                    res.redirect('session/login');
+                    res.render('session/resetPassword', {errors: err.errors, user: new User({email: req.body.email})});
+               } else { 
+                    res.render('session/login');
                 }
             });
         });

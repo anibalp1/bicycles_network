@@ -98,7 +98,7 @@ userSchema.methods.resetPassword = function(cb) {
             from: 'no-reply@bicycleNetwork.com',
             to: email_destination,
             subject: 'Password Reset',
-            text: 'Hi,\n\n' + 'Please click on this link to reset your account password:\n' + 'http://localhost:3000' + '\/resetPassword\/' + token.token + '\n'
+            text: 'Hi,\n\n' + 'Please click on this link to reset your account password:\n' + 'http://localhost:3000' + '\/session\/resetPassword\/' + token.token + '\n'
         }
 
         mailer.sendMail(mailOptions, function(err) {
