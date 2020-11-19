@@ -9,5 +9,7 @@ router.post('/forgotPassword', sessionController.forgotpassword_post);
 router.get('/forgotPassword', sessionController.forgotpassword_get);
 router.get('/resetPassword/:token', sessionController.resetpasssword_get);
 router.post('/resetPassword/', sessionController.resetpasssword_post);
+router.get('/createUser', sessionController.create_user_get);
+router.post('/createUser/', sessionController.create_user_post);
 
 module.exports = router;

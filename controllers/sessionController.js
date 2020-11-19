@@ -23,12 +23,30 @@ module.exports = {
             });
         })(req, res, next);
     },
+    create_user_get: function(req, res, next){
+        res.render('session/createUser', {errors: {}, user: new User()}); 
+    },
+    create_user_post: function(req, res, next){
+        if(req.body.password != req.body.confirm_password){
+            res.render('session/createUser', {errors: {confirm_password: {message: 'The password and the confirm password does not macth'}}, user: new User({name: req.body.name, email: req.body.email})});
+            return;
+        }
+
+        User.create({name: req.body.name, email: req.body.email, password: req.body.password}, function(err, newUser){
+            if(err){
+                res.render('users/create', {errors: err.errors, user: new User({name: req.body.name, email: req.body.email })});
+            }else {
+                newUser.send_welcome_email();
+                res.redirect('/users');
+            }
+        });
+    },
     logout_get: function(req, res){
         req.logOut();
         res.redirect('/');
     },
     forgotpassword_get: function(req, res){
-        res.render('session/forgotPassword')
+        res.render('session/forgotPassword');
     },
     forgotpassword_post: function (req, res) {
         User.findOne({ email: req.body.email }, function(err, user) {
