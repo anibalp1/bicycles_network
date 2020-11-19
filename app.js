@@ -48,8 +48,8 @@ app.use(passport.session());
 
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/bicycles', bicyclesRouter);
+app.use('/users', loggedIn, usersRouter);
+app.use('/bicycles', loggedIn, bicyclesRouter);
 app.use('/token', tokenRouter);
 app.use('/session', sessionRouter);
 app.use('/api/bicycles', bicyclesApiRouter);
@@ -71,5 +71,26 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+function loggedIn(req, res, next){
+  if(req.user){
+    next();
+  } else{
+    console.log('Not logged user');
+    res.redirect('session/login');
+  }
+}
+  
+function validateUser(req, res, next){
+    jwt.verify(req.headers['x-access-token'], req.app.get('secretKey'), function (err, decoded){
+        if(err) {
+            res.json({status:"error", message:err.message, data:null});
+        }else{
+            req.body.userId = decoded.id;
+            console.log('jwt verify '+decoded);
+            next();
+        }
+    });
+}
 
 module.exports = app;
