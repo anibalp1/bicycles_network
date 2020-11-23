@@ -17,12 +17,12 @@ passport.use(new LocalStrategy(
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.HOST + "/auth/google/callback"
+    callbackURL: process.env.HOST + "auth/google/callback"
 }, function(accessToken, refreshToken, profile, callback){
     console.log(profile);
 
     User.findOneOrCreateByGoogle(profile, function(err, user){
-        return cb(err, user);
+        return callback(err, user);
     });
 }));
 
