@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var jwt = require('jsonwebtoken');
-var dotenv = require('dotenv');
+var dotenv = require('dotenv').config();
 const passport = require('./config/passport');
 const session = require('express-session');
 
