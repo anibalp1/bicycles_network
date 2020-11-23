@@ -66,6 +66,34 @@ userSchema.methods.reserve = function (bicId, startDate, endDate, callback){
     reserve.save(callback);
 }
 
+userSchema.statics.findOneOrCreateByGoogle = function findOneOrCreate(condition,callback) {
+    const self = this;
+    console.log(condition);
+    self.findOne({
+            $or: [
+                { googleId: condition.id },
+                { email: condition.emails[0].value },
+            ],
+        },
+        function (err, result) {
+            if (result) {
+                callback(err, result);
+            } else {
+                let values = {};
+                values.googleId = condition.id;
+                values.email = condition.email[0].values;
+                values.name = condition.displayName || 'SIN NOMBRE';
+                values.validated = true;
+                values.password = condition._json.etag;
+                self.create(values, (err, result) => {
+                    if (err) console.log(err);
+                    return callback(err, result);
+                });
+            }
+        }
+    );
+};
+
 userSchema.methods.send_welcome_email = function(callback){
     const token = new Token({_userId: this.id, token: crypto.randomBytes(16).toString('hex')});
     const email_destination = this.email;

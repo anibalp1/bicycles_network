@@ -7,6 +7,7 @@ var jwt = require('jsonwebtoken');
 var dotenv = require('dotenv').config();
 const passport = require('./config/passport');
 const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -17,7 +18,19 @@ var authApiRouter = require('./routes/api/authApi');
 var bicyclesApiRouter = require('./routes/api/bicycleApi');
 var usersApiRouter = require('./routes/api/userApi');
 
-const store = new session.MemoryStore;
+let store;
+if(process.env.NODE_ENV === 'development'){
+  store = new session.MemoryStore;
+}else{
+  store = new MongoDBStore({
+    uri: process.env.MONGO_URI,
+    collection: 'sessions'
+  });
+  store.on('error', function(err){
+    assert.ifError(err);
+    assert.ok(false);
+  });
+}
 
 var app = express();
 
@@ -33,6 +46,7 @@ app.use(session({
 
 var mongoose = require('mongoose');
 const { request } = require('express');
+const { assert } = require('console');
 
 // var mongoDB = 'mongodb://localhost/bicycle_network';
 var mongoDB = process.env.MONGO_URI;
@@ -66,6 +80,14 @@ app.use('/api/users', validateUser, usersApiRouter);
 app.use('/privacy_policy', function (req, res) {
   res.sendFile('public/privacy_policy.html');
 });
+
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+
+app.get('/auth/google/callback', passport.authenticate('google', {
+  successRedirect: '/',
+  failureRedirect: '/error'
+}));  
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
