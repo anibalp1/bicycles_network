@@ -82,11 +82,11 @@ app.use('/privacy_policy', function (req, res) {
 });
 
 app.get('/auth/google',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.profile.emails.read'] }));
 
 app.get('/auth/google/callback', passport.authenticate('google', {
   successRedirect: '/',
-  failureRedirect: '/error'
+  failureRedirect: '/session/login'
 }));  
 
 // catch 404 and forward to error handler
