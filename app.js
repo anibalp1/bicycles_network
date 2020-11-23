@@ -35,7 +35,7 @@ var mongoose = require('mongoose');
 const { request } = require('express');
 
 // var mongoDB = 'mongodb://localhost/bicycle_network';
-var mongoDB = 'mongodb+srv://admin:admin12345@cluster0.rpphs.mongodb.net/<dbname>?retryWrites=true&w=majority'
+var mongoDB = process.env.MONGO_URI;
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
