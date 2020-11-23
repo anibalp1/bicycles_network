@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var jwt = require('jsonwebtoken');
-
+var dotenv = require('dotenv');
 const passport = require('./config/passport');
 const session = require('express-session');
 
@@ -32,8 +32,10 @@ app.use(session({
 }))
 
 var mongoose = require('mongoose');
+const { request } = require('express');
 
-var mongoDB = 'mongodb://localhost/bicycle_network';
+// var mongoDB = 'mongodb://localhost/bicycle_network';
+var mongoDB = 'mongodb+srv://admin:admin12345@cluster0.rpphs.mongodb.net/<dbname>?retryWrites=true&w=majority'
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
