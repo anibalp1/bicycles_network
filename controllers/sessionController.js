@@ -48,7 +48,7 @@ module.exports = {
     forgotpassword_get: function(req, res){
         res.render('session/forgotPassword');
     },
-    forgotpassword_post: function (req, res) {
+    forgotpassword_post: function (req, res, next) {
         User.findOne({ email: req.body.email }, function(err, user) {
             if (!user) return res.render('session/forgotPassword', { info: { message: 'The given email does not exist' } });
       

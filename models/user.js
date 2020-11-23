@@ -73,7 +73,7 @@ userSchema.methods.send_welcome_email = function(callback){
         if(err) return console.log(err.message);
 
         const mailOptions = {
-            from: 'no-reply@bicycleNetwork.com',
+            from: process.env.SENDGRID_EMAIL,
             to: email_destination,
             subject: 'Account Verification',
             text: 'Hi, \n\n' + 'To validate your account please click the next link: \n' + 'http://localhost:3000' + '\/token/confirmation\/' +token.token + '\n'
@@ -95,7 +95,7 @@ userSchema.methods.resetPassword = function(cb) {
         if (err) { return cb(err); }
 
         const mailOptions = {
-            from: 'no-reply@bicycleNetwork.com',
+            from: process.env.SENDGRID_EMAIL,
             to: email_destination,
             subject: 'Password Reset',
             text: 'Hi,\n\n' + 'Please click on this link to reset your account password:\n' + 'http://localhost:3000' + '\/session\/resetPassword\/' + token.token + '\n'
