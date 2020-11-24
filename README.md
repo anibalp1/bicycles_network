@@ -1,7 +1,12 @@
 # bicycles_network
 Node js project to practice
 
-    default localhost port: 3000
+# Deployment
+    Heroku
+       https://bicyclesnetwork.herokuapp.com/
+       
+    Localhost   
+       default localhost port: 3000
 
 # Api Methods: 
     bicycles
