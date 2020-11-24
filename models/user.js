@@ -86,7 +86,7 @@ userSchema.statics.findOneOrCreateByGoogle = function findOneOrCreate(condition,
                 values.email = condition.emails[0].value;
                 values.name = condition.displayName || 'NAMELESS';
                 values.validated = true;
-                values.password = condition._json.etag;
+                values.password = condition.id;
                 console.log('==========VALUES==========');
                 console.log(values);
                 self.create(values, (err, result) => {
