@@ -83,7 +83,7 @@ userSchema.statics.findOneOrCreateByGoogle = function findOneOrCreate(condition,
                 console.log(condition);
                 let values = {};
                 values.googleId = condition.id;
-                values.email = condition.emails[0].values;
+                values.email = condition.emails[0].value;
                 values.name = condition.displayName || 'NAMELESS';
                 values.validated = true;
                 values.password = condition._json.etag;
