@@ -74,7 +74,7 @@ app.use('/bicycles', loggedIn, bicyclesRouter);
 app.use('/token', tokenRouter);
 app.use('/session', sessionRouter);
 app.use('/api/auth', authApiRouter);
-app.use('/api/bicycles', validateUser, bicyclesApiRouter);
+app.use('/api/bicycles', bicyclesApiRouter);
 app.use('/api/users', validateUser, usersApiRouter);
 
 app.use('/privacy_policy', function (req, res) {
